@@ -105,7 +105,7 @@ def get_row_on_filter_from_sql(conn, param_data):
     return data
 
 def write_csv(path, array, param_data):
-    ''''''
+    '''создание файла .csv'''
     count = len(array)
     for rec in array:
         string_line = ','.join([str(i) for i in rec])
@@ -161,6 +161,7 @@ def write_history(conn, table_report, csv):
         '''возвращает минус один день от ткущей даты в формате строки'''
         date_time_obj = datetime.strptime(str(date_from), '%Y%m%d') + timedelta(days=-1)
         return date_time_obj.strftime('%Y%m%d')
+
     def check_id_in_db(conn, table_report, id_, date_from, statys, ):
         '''проверка наличия записи в базе
         '''
@@ -255,16 +256,10 @@ all_date = generete_range('2013-01-01', finish_date=today)
 clear_dir_upload_file(path)
 createte_files(path, all_date)
 
-# dict = []
-# for file in get_file_indir(path):
-#     dict.append(file.split('_')[2].split('.')[0])
-
-# print(sorted(dict))
-
 for file in get_file_indir(path):
     write_history(conn, table_report, file)
 
-
+# при тестировании для очистки от дубликатов запускать два раза
 # conn.execute('''
 #     delete from public.cyclones_history
 # where concat(id, date_from, date_end, status) in (
